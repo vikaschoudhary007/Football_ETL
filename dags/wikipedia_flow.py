@@ -6,7 +6,7 @@ import os
 from airflow.operators.python import PythonOperator
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from pipelines.wikipedia_pipeline import extract_wikipedia_data
+from pipelines.wikipedia_pipeline import extract_wikipedia_data, transform_wikipedia_data, write_wikipedia_data
 
 default_args = {
     "owner": "Vikas",
@@ -30,6 +30,19 @@ extract_data_from_wikipedia = PythonOperator(
 )
 
 # Transform/preprocessing
-
+transform_wikipedia_data = PythonOperator(
+    task_id='transform_wikipedia_data',
+    python_callable=transform_wikipedia_data,
+    provide_context=True,
+    dag=dag
+)
 
 # Load/write
+write_wikipedia_data = PythonOperator(
+    task_id='write_wikipedia_data',
+    python_callable=write_wikipedia_data,
+    provide_context=True,
+    dag=dag
+)
+
+extract_data_from_wikipedia >> transform_wikipedia_data >> write_wikipedia_data
