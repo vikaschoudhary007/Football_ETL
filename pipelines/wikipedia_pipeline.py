@@ -117,8 +117,6 @@ def write_wikipedia_data(**kwargs):
 
     file_name = ('stadiums_cleaned' + str(datetime.now().date()) + "_" + str(datetime.now().time()).replace(':', '_') + ".csv")
 
-    # data.to_csv('data/'+file_name, index=False)
-    #fR64oAFXJPZZw5A1NDJzloNGr4YvuaJmMLAZ2r2eS//14rIeL5oyDIBEV9y/+AOsPUQ59emdr67T+AStC6F51g==
 
     # abfs://containerName@StorageAccountName.dfs.core.windows.net
     data.to_csv('abfs://footballdataetl@footballdataetl.dfs.core.windows.net/data/'+file_name,
